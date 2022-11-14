@@ -18,17 +18,17 @@ dhtDevice = adafruit_dht.DHT11(board.D26)
 
 # MySQL DB の接続設定
 Raspi_db = mysql.connector.connect(
-    user = 'root',
-    password = 'rinriN@DBM01',
-    host = '118.21.158.208',
-    database = 'sensor',
+    user = 'your_db_user',
+    password = 'your_db_password',
+    host = 'your_db_host',
+    database = 'your_db_table',
     auth_plugin='mysql_native_password'
 )
 
 # Mqtt の接続設定
-broker = '118.21.158.208'
+broker = 'your_mqtt_broker_ip_address'
 port = 1883
-topic = "/Raspi3/dht11"
+topic = "your_topic"
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
 
 # Mqtt の接続関数
