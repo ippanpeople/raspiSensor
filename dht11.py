@@ -10,7 +10,6 @@ from paho.mqtt import client as mqtt_client     # Mqtt
 # GPIO 初期設定
 GPIO.setwarnings(True)
 GPIO.setmode(GPIO.BCM)
-GPIO.cleanup()
 
 # 温湿度センサー初期設定
 # SENSOR = Adafruit_DHT.DHT11
@@ -44,6 +43,11 @@ def connect_mqtt():
     client.on_connect = on_connect
     client.connect(broker, port)
     return client
+
+def destroy():
+    dhtDevice.exit()
+    GPIO.cleanup()
+
 
 def main():
     # Mqtt brokerに接続
