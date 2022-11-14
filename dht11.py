@@ -75,7 +75,7 @@ def main():
                     print(x)
         except RuntimeError as error:
             print(error.args[0])
-            time.sleep(2)
+            time.sleep(5)
             continue
         except Exception as error:
             dhtDevice.exit()
