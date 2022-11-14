@@ -54,24 +54,32 @@ def main():
     client = connect_mqtt()
 
     while True:
-        # humi, temp = Adafruit_DHT.read(SENSOR, SENSOR_PIN) 
-        # if temp is not None and humi is not None:
-        temp = dhtDevice.temperature
-        humi = dhtDevice.humidity
-        if temp is not None and humi is not None: 
-            # publishメッセージ
-            msg = '溫度={0:0.1f}度C 濕度={1:0.1f}%'.format(temp, humi)
-            result = client.publish(topic, msg)
-            print("Mqtt publish status : ", result[0])
+        try:
+            # humi, temp = Adafruit_DHT.read(SENSOR, SENSOR_PIN) 
+            # if temp is not None and humi is not None:
+            temp = dhtDevice.temperature
+            humi = dhtDevice.humidity
+            if temp is not None and humi is not None: 
+                # publishメッセージ
+                msg = '溫度={0:0.1f}度C 濕度={1:0.1f}%'.format(temp, humi)
+                result = client.publish(topic, msg)
+                print("Mqtt publish status : ", result[0])
 
-            mycursor = Raspi_db.cursor()
-            mycursor.execute("INSERT INTO dht11 ( DATE, TIME, TEMPERATURE, HUMIDITY ) VALUES ( current_date(), current_time(), %s, %s)", (temp, humi))
-            Raspi_db.commit()
+                mycursor = Raspi_db.cursor()
+                mycursor.execute("INSERT INTO dht11 ( DATE, TIME, TEMPERATURE, HUMIDITY ) VALUES ( current_date(), current_time(), %s, %s)", (temp, humi))
+                Raspi_db.commit()
 
-            mycursor.execute("SELECT * FROM dht11 ORDER BY DATE DESC, TIME DESC LIMIT 1")
-    
-            for x in mycursor:
-                print(x)
+                mycursor.execute("SELECT * FROM dht11 ORDER BY DATE DESC, TIME DESC LIMIT 1")
+        
+                for x in mycursor:
+                    print(x)
+        except RuntimeError as error:
+            print(error.args[0])
+            time.sleep(2)
+            continue
+        except Exception as error:
+            dhtDevice.exit()
+            raise error
     
         time.sleep(1)
 
