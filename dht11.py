@@ -3,7 +3,7 @@ import time
 import RPi.GPIO as GPIO
 import board
 import adafruit_dht
-import Adafruit_DHT
+#import Adafruit_DHT
 import mysql.connector                          # MySQL
 from paho.mqtt import client as mqtt_client     # Mqtt
 
