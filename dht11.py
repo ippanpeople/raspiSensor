@@ -22,7 +22,8 @@ Raspi_db = mysql.connector.connect(
     password = 'your_db_password',
     host = 'your_db_host',
     database = 'your_db_table',
-    auth_plugin='mysql_native_password'
+    auth_plugin='mysql_native_password',
+    raise_on_warnings=True,
 )
 
 # Mqtt の接続設定
